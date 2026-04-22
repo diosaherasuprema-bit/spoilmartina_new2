@@ -80,6 +80,38 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 24px;display:fl
 .btn-login{display:inline-block;padding:14px 40px;background:#e8457a;color:#04020a;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:background .3s;}
 .btn-login:hover{background:#c02860;}
 
+
+/* ANTI DOWNLOAD */
+.ac.unlocked img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+}
+.ac.unlocked::after {
+  content: '@spoilMartina';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .2em;
+  color: rgba(255,255,255,.12);
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.img-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  background: transparent;
+  cursor: default;
+}
+
 /* BUY BTN */
 .buy-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:14px 44px;background:#e8457a;color:#04020a;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 0 34px rgba(232,69,122,.4);animation:bp 2.5s ease infinite;text-decoration:none;}
 @keyframes bp{0%,100%{box-shadow:0 0 34px rgba(232,69,122,.33);}50%{box-shadow:0 0 60px rgba(232,69,122,.65);}}
@@ -266,6 +298,49 @@ async function logout(){
 }
 
 init();
+
+// ── ANTI DOWNLOAD ──
+// Disable right click
+document.addEventListener('contextmenu', e => {
+  if(e.target.tagName === 'IMG' || e.target.closest('.ac')) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Disable drag
+document.addEventListener('dragstart', e => {
+  if(e.target.tagName === 'IMG') {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Disable keyboard shortcuts for saving
+document.addEventListener('keydown', e => {
+  // Ctrl+S, Ctrl+U, Ctrl+Shift+I, F12
+  if((e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'S' || e.key === 'U')) ||
+     (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J')) ||
+     e.key === 'F12') {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Disable print screen (partial)
+document.addEventListener('keyup', e => {
+  if(e.key === 'PrintScreen') {
+    navigator.clipboard.writeText('').catch(() => {});
+  }
+});
+
+// Disable selection on images
+document.addEventListener('selectstart', e => {
+  if(e.target.tagName === 'IMG') {
+    e.preventDefault();
+  }
+});
+
 </script>
 </body>
 </html>
