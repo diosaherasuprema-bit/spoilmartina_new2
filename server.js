@@ -2,28 +2,24 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
-const passport = require('./passport');
-const pool = require('./db/pool');
+const passport = require('./src/passport');
+const pool = require('./src/db/pool');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ── WEBHOOK NEEDS RAW BODY (before json middleware) ───────────
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
-
-// ── MIDDLEWARE ────────────────────────────────────────────────
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Sessions stored in PostgreSQL
 app.use(session({
   store: new pgSession({ pool, tableName: 'session' }),
   secret: process.env.SESSION_SECRET || 'martina_secret_change_this',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    maxAge: 30 * 24 * 60 * 60 * 1000,
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
   },
@@ -31,26 +27,18 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// ── STATIC FILES ──────────────────────────────────────────────
-app.use(express.static(path.join(__dirname, '../public')));
+app.use('/auth', require('./src/routes/auth'));
+app.use('/api/payments', require('./src/routes/payments'));
+app.use('/api/album', require('./src/routes/album'));
 
-// ── ROUTES ───────────────────────────────────────────────────
-app.use('/auth', require('./routes/auth'));
-app.use('/api/payments', require('./routes/payments'));
-app.use('/api/album', require('./routes/album'));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html')));
+app.get('/drop-rates', (req, res) => res.sendFile(path.join(__dirname, 'public/drop-rates.html')));
+app.get('/pack-success', (req, res) => res.sendFile(path.join(__dirname, 'public/pack-success.html')));
+app.get('/album', (req, res) => res.sendFile(path.join(__dirname, 'public/album.html')));
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-// ── PAGES ─────────────────────────────────────────────────────
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')));
-app.get('/drop-rates', (req, res) => res.sendFile(path.join(__dirname, '../public/drop-rates.html')));
-app.get('/album', (req, res) => res.sendFile(path.join(__dirname, '../public/album.html')));
-app.get('/pack-success', (req, res) => res.sendFile(path.join(__dirname, '../public/pack-success.html')));
-
-// ── HEALTH CHECK ──────────────────────────────────────────────
-app.get('/health', (req, res) => res.json({ status: 'ok', time: new Date() }));
-
-// ── START ─────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🦂 Martina Collection running on port ${PORT}`);
-  console.log(`   Mode: ${process.env.NODE_ENV || 'development'}`);
 });
