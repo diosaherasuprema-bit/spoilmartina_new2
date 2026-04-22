@@ -1,5 +1,6 @@
 // ── CARD GENERATOR ───────────────────────────────────────────
 // Generates a pack of 5 cards with correct drop rates
+// Per pack: 4 random slots + 1 guaranteed rare or better
 
 const CARDS = {
   common: Array.from({ length: 25 }, (_, i) => ({
@@ -24,40 +25,41 @@ const CARDS = {
   })),
 };
 
-function randomCard(excludeRarities = []) {
-  const r = Math.random();
-  let rarity;
-  if (r < 0.70) rarity = 'common';
-  else if (r < 0.95) rarity = 'rare';
-  else if (r < 0.99) rarity = 'epic';
-  else rarity = 'legendary';
+function randomRaritySlot() {
+  // Standard slot: 70% common, 25% rare, 4% epic, 1% legendary
+  const r = Math.random() * 100;
+  if (r < 70) return 'common';
+  if (r < 95) return 'rare';
+  if (r < 99) return 'epic';
+  return 'legendary';
+}
 
-  if (excludeRarities.includes(rarity)) {
-    // Fallback to common if excluded
-    rarity = 'common';
-  }
+function randomGuaranteedSlot() {
+  // Guaranteed slot (5th card): at least rare
+  // 94% rare, 5% epic, 1% legendary
+  const r = Math.random() * 100;
+  if (r < 94) return 'rare';
+  if (r < 99) return 'epic';
+  return 'legendary';
+}
 
+function pickCard(rarity) {
   const pool = CARDS[rarity];
-  return pool[Math.floor(Math.random() * pool.length)];
+  return { ...pool[Math.floor(Math.random() * pool.length)] };
 }
 
 function generatePack() {
   const cards = [];
 
-  // 4 random cards
+  // 4 standard slots
   for (let i = 0; i < 4; i++) {
-    cards.push(randomCard());
+    const rarity = randomRaritySlot();
+    cards.push(pickCard(rarity));
   }
 
-  // 5th card — guaranteed Rare or better
-  const r = Math.random();
-  let guaranteed;
-  if (r < 0.01) guaranteed = 'legendary';
-  else if (r < 0.05) guaranteed = 'epic';
-  else guaranteed = 'rare';
-
-  const guaranteedPool = CARDS[guaranteed];
-  cards.push(guaranteedPool[Math.floor(Math.random() * guaranteedPool.length)]);
+  // 1 guaranteed rare or better slot
+  const guaranteedRarity = randomGuaranteedSlot();
+  cards.push(pickCard(guaranteedRarity));
 
   // Shuffle
   for (let i = cards.length - 1; i > 0; i--) {
