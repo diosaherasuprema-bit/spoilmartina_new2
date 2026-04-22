@@ -26,11 +26,11 @@ const CARDS = {
 };
 
 function randomRaritySlot() {
-  // Standard slot: 70% common, 25% rare, 4% epic, 1% legendary
+  // Standard slot: 93% common, 6% rare, 0.9% epic, 0.1% legendary
   const r = Math.random() * 100;
-  if (r < 70) return 'common';
-  if (r < 95) return 'rare';
-  if (r < 99) return 'epic';
+  if (r < 93) return 'common';
+  if (r < 99) return 'rare';
+  if (r < 99.9) return 'epic';
   return 'legendary';
 }
 
