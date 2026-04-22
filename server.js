@@ -33,11 +33,13 @@ app.use('/auth', require('./src/routes/auth'));
 app.use('/api/payments', require('./src/routes/payments'));
 app.use('/api/album', require('./src/routes/album'));
 app.use('/api/image', require('./src/routes/images'));
+app.use('/api/ranking', require('./src/routes/ranking'));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html')));
 app.get('/drop-rates', (req, res) => res.sendFile(path.join(__dirname, 'public/drop-rates.html')));
 app.get('/pack-success', (req, res) => res.sendFile(path.join(__dirname, 'public/pack-success.html')));
 app.get('/album', (req, res) => res.sendFile(path.join(__dirname, 'public/album.html')));
+app.get('/ranking', (req, res) => res.sendFile(path.join(__dirname, 'public/ranking.html')));
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.listen(PORT, () => {
