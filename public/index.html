@@ -240,8 +240,33 @@ html,body{width:100%;height:100%;background:#04020a;overflow:hidden;touch-action
   </div>
 
   <div class="carousel-ui">
-    <div class="open-hint">Tap center pack or swipe to rotate</div>
-    <button class="btn-open" id="btnOpen">Open selected pack ✂️</button>
+    <div class="open-hint" id="openHint">Tap center pack or swipe to rotate</div>
+    <!-- USER BAR -->
+    <div id="userBar" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;min-height:24px;"></div>
+    <button class="btn-open" id="btnOpen">💳 Buy pack — €15</button>
+    <div id="authLinks" style="display:flex;gap:16px;margin-top:8px;">
+      <span id="loginLink" style="font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,69,122,.6);cursor:pointer;text-decoration:underline;">Login</span>
+      <span id="registerLink" style="font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,69,122,.6);cursor:pointer;text-decoration:underline;">Register</span>
+      <span id="albumLink" style="font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,69,122,.6);cursor:pointer;text-decoration:underline;display:none;">My album</span>
+      <span id="logoutLink" style="font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,69,122,.4);cursor:pointer;text-decoration:underline;display:none;">Logout</span>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="authModal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(4,2,10,.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+  <div style="background:#0f060c;border:1px solid rgba(232,69,122,.25);padding:40px;width:320px;max-width:90vw;">
+    <div id="authTitle" style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:#fce4ef;margin-bottom:24px;text-align:center;">Login</div>
+    <div id="authError" style="font-size:8px;letter-spacing:.2em;color:#e8457a;margin-bottom:12px;display:none;text-align:center;"></div>
+    <input id="authEmail" type="email" placeholder="Email" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(232,69,122,.2);color:#fce4ef;font-family:'Space Mono',monospace;font-size:11px;margin-bottom:10px;outline:none;">
+    <input id="authPassword" type="password" placeholder="Password" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(232,69,122,.2);color:#fce4ef;font-family:'Space Mono',monospace;font-size:11px;margin-bottom:20px;outline:none;">
+    <button id="authSubmit" style="width:100%;padding:13px;background:#e8457a;color:#04020a;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;border:none;cursor:pointer;margin-bottom:12px;">Login</button>
+    <div style="text-align:center;">
+      <a href="/auth/twitter" style="font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:rgba(232,69,122,.6);">🐦 Login with Twitter</a>
+    </div>
+    <div style="margin-top:16px;text-align:center;">
+      <span onclick="closeModal()" style="font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:rgba(252,228,239,.3);cursor:pointer;">Cancel</span>
+    </div>
   </div>
 </div>
 
@@ -488,11 +513,123 @@ const styleEl = document.createElement('style');
 styleEl.textContent = '@keyframes pvFloat{0%,100%{transform-origin:center;filter:none;} 50%{transform:translateY(-8px);}}';
 document.head.appendChild(styleEl);
 
-// OPEN
-document.getElementById('btnOpen').addEventListener('click', () => {
-  resetCut();
-  document.getElementById('cut-overlay').classList.add('active');
+// ── AUTH ──
+let currentUser = null;
+
+async function checkAuth(){
+  try {
+    const res = await fetch('/auth/me');
+    const data = await res.json();
+    currentUser = data.user;
+    updateAuthUI();
+  } catch(e) {}
+}
+
+function updateAuthUI(){
+  const userBar = document.getElementById('userBar');
+  const loginLink = document.getElementById('loginLink');
+  const registerLink = document.getElementById('registerLink');
+  const logoutLink = document.getElementById('logoutLink');
+  const albumLink = document.getElementById('albumLink');
+  const btnOpen = document.getElementById('btnOpen');
+
+  if(currentUser){
+    userBar.innerHTML = `<span style="font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,69,122,.7);">👑 ${currentUser.displayName || currentUser.email}</span>`;
+    loginLink.style.display='none';
+    registerLink.style.display='none';
+    logoutLink.style.display='block';
+    albumLink.style.display='block';
+  } else {
+    userBar.innerHTML = '';
+    loginLink.style.display='block';
+    registerLink.style.display='block';
+    logoutLink.style.display='none';
+    albumLink.style.display='none';
+  }
+}
+
+let authMode = 'login';
+
+document.getElementById('loginLink').addEventListener('click', () => {
+  authMode = 'login';
+  document.getElementById('authTitle').textContent = 'Login';
+  document.getElementById('authSubmit').textContent = 'Login';
+  document.getElementById('authError').style.display='none';
+  document.getElementById('authModal').style.display='flex';
 });
+document.getElementById('registerLink').addEventListener('click', () => {
+  authMode = 'register';
+  document.getElementById('authTitle').textContent = 'Register';
+  document.getElementById('authSubmit').textContent = 'Create account';
+  document.getElementById('authError').style.display='none';
+  document.getElementById('authModal').style.display='flex';
+});
+document.getElementById('logoutLink').addEventListener('click', async () => {
+  await fetch('/auth/logout', {method:'POST'});
+  currentUser = null;
+  updateAuthUI();
+});
+document.getElementById('albumLink').addEventListener('click', () => {
+  showScreen('album-screen');
+  loadAlbum();
+});
+
+document.getElementById('authSubmit').addEventListener('click', async () => {
+  const email = document.getElementById('authEmail').value;
+  const password = document.getElementById('authPassword').value;
+  const errEl = document.getElementById('authError');
+  errEl.style.display='none';
+
+  try {
+    const res = await fetch(`/auth/${authMode}`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email, password})
+    });
+    const data = await res.json();
+    if(!res.ok) { errEl.textContent = data.error; errEl.style.display='block'; return; }
+    currentUser = data.user;
+    updateAuthUI();
+    closeModal();
+  } catch(e) {
+    errEl.textContent = 'Connection error'; errEl.style.display='block';
+  }
+});
+
+function closeModal(){
+  document.getElementById('authModal').style.display='none';
+}
+
+// ── STRIPE CHECKOUT ──
+document.getElementById('btnOpen').addEventListener('click', async () => {
+  const btn = document.getElementById('btnOpen');
+  btn.textContent = 'Redirecting...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('/api/payments/create-checkout', {method:'POST', headers:{'Content-Type':'application/json'}});
+    const data = await res.json();
+    if(data.url) window.location.href = data.url;
+    else { btn.textContent = '💳 Buy pack — €15'; btn.disabled = false; }
+  } catch(e) {
+    btn.textContent = '💳 Buy pack — €15';
+    btn.disabled = false;
+  }
+});
+
+// Load album from server
+async function loadAlbum(){
+  const g = document.getElementById('albumGrid');
+  g.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:8px;letter-spacing:.3em;color:rgba(232,69,122,.5);">Loading...</div>';
+  try {
+    const res = await fetch('/api/album');
+    const data = await res.json();
+    buildAlbum(data.cards || []);
+  } catch(e) {
+    buildAlbum([]);
+  }
+}
+
+checkAuth();
 
 // CUT
 const cutStrip=document.getElementById('cutStrip'),cutProg=document.getElementById('cutProg'),cutSciss=document.getElementById('cutSciss'),cutSwipe=document.getElementById('cutSwipe');
@@ -594,11 +731,11 @@ document.getElementById('spCont').addEventListener('click',()=>{
   document.getElementById('card3d').classList.add('flipped');
   document.getElementById('btnNext').textContent=currentCard===packCards.length-1?'View album →':'Next card →';
 });
-function buildAlbum(){
+function buildAlbum(ownedCards = []){
   const g=document.getElementById('albumGrid');g.innerHTML='';
   const rp=['common','common','common','rare','rare','epic','legendary'];
   for(let i=0;i<45;i++){
-    const o=owned.find(c=>c.name===`Card #${i+1}`);
+    const o=ownedCards.find(c=>c.card_id===`common_${i+1}`||c.name===`Card #${i+1}`);
     const rarity=o?o.rarity:rp[Math.floor(Math.random()*rp.length)];
     const d=document.createElement('div');d.className=`ac rarity-${rarity} ${o?'unlocked':'locked'}`;
     if(o){const img=document.createElement('img');img.src=IMG;d.appendChild(img);}
