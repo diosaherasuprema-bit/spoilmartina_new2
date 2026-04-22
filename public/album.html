@@ -202,12 +202,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 24px;display:fl
 <div id="lightbox">
   <div class="lb-close" onclick="closeLightbox()">✕</div>
   <div class="lb-card" id="lbCard">
-    <img id="lbImg" src="" alt="" draggable="false">
+    <img id="lbImg" src="" alt="" draggable="false" oncontextmenu="return false;" style="-webkit-user-drag:none;user-select:none;pointer-events:none;-webkit-touch-callout:none;">
     <div class="lb-holo" id="lbHolo"></div>
     <div class="lb-rays" id="lbRays" style="display:none"></div>
     <div class="lb-card-glow" id="lbGlow"></div>
     <div class="lb-rarity-bar" id="lbBar"></div>
     <div class="lb-watermark">@spoilMartina</div>
+    <!-- Full overlay blocking all interaction with image -->
+    <div style="position:absolute;inset:0;z-index:50;background:transparent;" oncontextmenu="return false;"></div>
   </div>
   <div class="lb-info">
     <div class="lb-name" id="lbName"></div>
