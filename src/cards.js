@@ -26,12 +26,10 @@ const CARDS = {
 };
 
 function randomRaritySlot() {
-  // Standard slot: 93% common, 6% rare, 0.9% epic, 0.1% legendary
+  // Standard slot: 93% common, 7% rare — epic/legendary ONLY in guaranteed slot
   const r = Math.random() * 100;
   if (r < 93) return 'common';
-  if (r < 99) return 'rare';
-  if (r < 99.9) return 'epic';
-  return 'legendary';
+  return 'rare';
 }
 
 function randomGuaranteedSlot() {
@@ -61,12 +59,7 @@ function generatePack() {
   const guaranteedRarity = randomGuaranteedSlot();
   cards.push(pickCard(guaranteedRarity));
 
-  // Shuffle
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
-  }
-
+  // NO shuffle — guaranteed rare stays last
   return cards;
 }
 
