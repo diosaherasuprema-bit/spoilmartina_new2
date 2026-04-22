@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', require('./src/routes/auth'));
 app.use('/api/payments', require('./src/routes/payments'));
 app.use('/api/album', require('./src/routes/album'));
+app.use('/api/image', require('./src/routes/images'));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html')));
 app.get('/drop-rates', (req, res) => res.sendFile(path.join(__dirname, 'public/drop-rates.html')));
