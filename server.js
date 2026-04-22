@@ -9,6 +9,8 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.set('trust proxy', 1);
+
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,10 +20,12 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'martina_secret_change_this',
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     httpOnly: true,
+    sameSite: 'lax',
   },
 }));
 
