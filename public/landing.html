@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARTINA 🦂 — spoilmartina</title>
+<meta name="description" content="Financial Domination. Your money exists to make her happy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SEZ8JJ0F3E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SEZ8JJ0F3E');
+</script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#070408;--bg2:#0f060c;
+  --pink:#e8457a;--pink2:#c02860;--pink3:#f07aa0;
+  --blush:#fce4ef;--pale:#f5c8dc;
+  --glow:rgba(232,69,122,0.18);
+  --dark:#1c0e15;--darker:#120810;
+  --dim:#8a5070;--dimmer:#4a2838;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--blush);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+a{text-decoration:none;color:inherit;}
+
+/* CURSOR */
+#cur{position:fixed;width:10px;height:10px;background:var(--pink);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .15s,height .15s;}
+#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(232,69,122,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .2s ease;}
+
+/* STICKY BAR */
+#sticky-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:500;
+  background:rgba(7,4,8,.94);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(232,69,122,.2);
+  padding:14px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  transform:translateY(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+#sticky-bar.visible{transform:translateY(0);}
+.sticky-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);}
+.sticky-links{display:flex;gap:8px;}
+.sticky-btn{
+  padding:10px 22px;font-family:'Space Mono',monospace;font-size:10px;
+  letter-spacing:.15em;text-transform:uppercase;
+  border:1px solid rgba(232,69,122,.3);color:var(--blush);
+  transition:all .3s;position:relative;overflow:hidden;white-space:nowrap;
+}
+.sticky-btn::before{content:'';position:absolute;inset:0;background:var(--pink);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;}
+.sticky-btn:hover::before{transform:scaleX(1);}
+.sticky-btn span{position:relative;z-index:1;}
+.pulse-btn{animation:pulseBorder 2.5s ease infinite;}
+@keyframes pulseBorder{0%,100%{border-color:rgba(232,69,122,.3);}50%{border-color:rgba(232,69,122,.9);box-shadow:0 0 20px rgba(232,69,122,.3);}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;}
+nav::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(7,4,8,.9) 60%,transparent);pointer-events:none;}
+.nav-logo{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--pink);position:relative;}
+.nav-right{display:flex;gap:32px;position:relative;}
+.nav-right a{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);transition:color .3s;}
+.nav-right a:hover{color:var(--blush);}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 100px;overflow:hidden;}
+#hero-canvas{position:absolute;inset:0;pointer-events:none;}
+.hero-glow{position:absolute;width:900px;height:900px;background:radial-gradient(circle,rgba(232,69,122,.18) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:breathe 6s ease infinite;pointer-events:none;}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6;}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1;}}
+.hero-scorp{position:absolute;top:80px;right:48px;font-size:clamp(100px,15vw,220px);opacity:.04;animation:floatScorp 8s ease infinite;pointer-events:none;user-select:none;}
+@keyframes floatScorp{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-20px) rotate(5deg);}}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--pink);margin-bottom:20px;opacity:0;animation:fadeUp .8s ease .2s forwards;}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(100px,20vw,280px);line-height:.85;letter-spacing:-.01em;overflow:hidden;position:relative;}
+.hero-name-inner{display:block;opacity:0;transform:translateY(110%);animation:slideUp 1s cubic-bezier(.16,1,.3,1) .4s forwards;}
+.hero-name .accent{color:var(--pink);}
+.hero-cycling-wrap{height:clamp(26px,3vw,46px);overflow:hidden;margin-top:24px;margin-bottom:44px;opacity:0;animation:fadeUp .8s ease 1s forwards;}
+.hero-cycling{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(16px,2.2vw,34px);color:var(--pale);display:flex;flex-direction:column;animation:cyclePhrases 14s ease infinite;}
+.hero-cycling span{flex-shrink:0;height:clamp(26px,3vw,46px);line-height:clamp(26px,3vw,46px);}
+@keyframes cyclePhrases{0%,18%{transform:translateY(0);}22%,40%{transform:translateY(-20%);}44%,62%{transform:translateY(-40%);}66%,84%{transform:translateY(-60%);}88%,100%{transform:translateY(-80%);}  }
+.hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;opacity:0;animation:fadeUp .8s ease 1.3s forwards;}
+.hero-quote p{font-size:clamp(13px,1.3vw,17px);color:var(--dim);line-height:1.75;font-style:italic;max-width:380px;}
+.hero-pay-now{display:flex;flex-direction:column;gap:9px;align-items:flex-end;}
+.pay-row{display:flex;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;transition:all .3s;position:relative;overflow:hidden;white-space:nowrap;}
+.btn-fill{background:var(--pink);color:var(--bg);}
+.btn-fill::before{content:'';position:absolute;inset:0;background:var(--pink2);transform:translateX(-101%);transition:transform .35s ease;}
+.btn-fill:hover::before{transform:translateX(0);}
+.btn-fill span{position:relative;z-index:1;}
+.btn-fill2{background:var(--pink2);}
+.btn-outline{border:1px solid rgba(232,69,122,.35);color:var(--pale);}
+.btn-outline:hover{border-color:var(--pink);background:rgba(232,69,122,.08);}
+.hero-scroll{position:absolute;bottom:100px;right:48px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp .8s ease 2s forwards;}
+.hero-scroll span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dimmer);writing-mode:vertical-rl;}
+.scroll-track{width:1px;height:60px;background:var(--dimmer);overflow:hidden;}
+.scroll-track::after{content:'';display:block;width:1px;height:100%;background:var(--pink);animation:scrollDown 1.8s ease 2.5s infinite;}
+@keyframes scrollDown{0%{transform:translateY(-100%);}100%{transform:translateY(200%);}}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:1px solid rgba(232,69,122,.12);border-bottom:1px solid rgba(232,69,122,.12);padding:18px 0;background:linear-gradient(90deg,var(--bg2),#130910,var(--bg2));position:relative;}
+.marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none;}
+.marquee-wrap::before{left:0;background:linear-gradient(to right,var(--bg2),transparent);}
+.marquee-wrap::after{right:0;background:linear-gradient(to left,var(--bg2),transparent);}
+.marquee-track{display:flex;white-space:nowrap;animation:marquee 18s linear infinite;}
+.marquee-track2{animation-direction:reverse;animation-duration:22s;}
+.m-item{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.2em;padding:0 32px;flex-shrink:0;}
+.m-item.pink{color:var(--pink);}
+.m-item.dim{color:var(--dimmer);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* REVEALS */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* SHARED TYPOGRAPHY */
+.sec-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--pink);display:block;margin-bottom:24px;}
+.big-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,9vw,140px);line-height:.9;letter-spacing:-.01em;}
+.big-title em{font-family:'Playfair Display',serif;font-style:italic;color:transparent;-webkit-text-stroke:1px var(--pink);}
+.big-title .accent{color:var(--pink);}
+
+/* PULL */
+.pull-section{padding:160px 48px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;}
+.pull-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);pointer-events:none;}
+.pull-body{font-size:clamp(15px,1.5vw,19px);line-height:1.9;color:rgba(252,228,239,.5);font-weight:300;margin-top:40px;}
+.pull-body strong{color:var(--pale);font-weight:400;}
+.pull-right{display:flex;flex-direction:column;gap:2px;}
+.pull-card{background:var(--dark);border:1px solid rgba(232,69,122,.08);padding:36px 40px;transition:all .4s;position:relative;overflow:hidden;opacity:0;transform:translateX(20px);transition:opacity .8s ease,transform .8s ease,background .3s,border .3s;}
+.pull-card.in{opacity:1;transform:translateX(0);}
+.pull-card:nth-child(2){transition-delay:.1s;}
+.pull-card:nth-child(3){transition-delay:.2s;}
+.pull-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--pink);transform:scaleY(0);transform-origin:bottom;transition:transform .4s ease;}
+.pull-card:hover{background:#200e18;border-color:rgba(232,69,122,.2);}
+.pull-card:hover::before{transform:scaleY(1);}
+.pull-card-num{font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:.3em;color:var(--dimmer);margin-bottom:12px;}
+.pull-card-text{font-size:clamp(15px,1.5vw,19px);font-style:italic;font-family:'Playfair Display',serif;color:var(--pale);line-height:1.5;}
+.pull-card-sub{margin-top:10px;font-size:11px;color:var(--dim);font-family:'Space Mono',monospace;letter-spacing:.1em;}
+
+/* STATS */
+.stats-section{border-top:1px solid rgba(232,69,122,.1);border-bottom:1px solid rgba(232,69,122,.1);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(232,69,122,.04);}
+.stat{padding:80px 48px;border-right:1px solid rgba(232,69,122,.08);opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease;}
+.stat:last-child{border-right:none;}
+.stat.in{opacity:1;transform:translateY(0);}
+.stat:nth-child(2){transition-delay:.12s;}
+.stat:nth-child(3){transition-delay:.24s;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,8vw,110px);line-height:1;color:var(--blush);}
+.stat-num .pre{color:var(--pink);}
+.stat-num .suf{color:var(--pink3);}
+.stat-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);margin:14px 0 10px;}
+.stat-desc{font-size:13px;color:var(--dimmer);font-style:italic;}
+
+
+
+/* RULES */
+.rules-section{padding:140px 48px;}
+.rules-heading{margin-bottom:80px;}
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(232,69,122,.05);}
+.rule{background:var(--bg);padding:56px 48px;display:grid;grid-template-columns:64px 1fr;gap:28px;border:1px solid rgba(232,69,122,.06);opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease,background .3s,border .3s;}
+.rule.in{opacity:1;transform:translateY(0);}
+.rule:nth-child(2){transition-delay:.1s;}
+.rule:nth-child(3){transition-delay:.2s;}
+.rule:nth-child(4){transition-delay:.3s;}
+.rule:hover{background:var(--darker);border-color:rgba(232,69,122,.2);}
+.rule-n{font-family:'Bebas Neue',sans-serif;font-size:80px;line-height:1;color:rgba(232,69,122,.12);transition:color .3s;}
+.rule:hover .rule-n{color:rgba(232,69,122,.45);}
+.rule-ico{font-size:22px;margin-bottom:12px;display:block;}
+.rule-t{font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,2.5vw,36px);letter-spacing:.04em;color:var(--blush);margin-bottom:14px;}
+.rule-d{font-size:14px;line-height:1.75;color:var(--dim);}
+
+/* ALTAR */
+.altar-section{padding:140px 48px;position:relative;overflow:hidden;}
+.altar-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(232,69,122,.09) 0%,transparent 70%);pointer-events:none;}
+.altar-inner{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start;}
+.altar-tagline{font-size:clamp(14px,1.4vw,18px);font-style:italic;color:var(--dim);line-height:1.85;margin-top:32px;margin-bottom:48px;}
+.altar-min{display:flex;align-items:baseline;gap:12px;margin-bottom:48px;}
+.altar-amount{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,9vw,110px);color:var(--pink);line-height:1;}
+.altar-min-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);line-height:1.7;}
+.altar-note{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--dimmer);padding-top:20px;border-top:1px solid rgba(232,69,122,.1);}
+.payment-stack{display:flex;flex-direction:column;gap:4px;}
+.pay-card{display:flex;align-items:center;justify-content:space-between;padding:28px 36px;background:var(--dark);border:1px solid rgba(232,69,122,.1);transition:all .4s;position:relative;overflow:hidden;}
+.pay-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--pink);transition:width .4s ease;}
+.pay-card:hover{border-color:var(--pink);transform:translateX(6px);}
+.pay-card:hover::before{width:3px;}
+.pay-card-info{display:flex;align-items:center;gap:16px;position:relative;z-index:1;}
+.pay-card-icon{font-size:20px;}
+.pay-card-name{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--pale);}
+.pay-card-sub{font-size:11px;color:var(--dim);margin-top:3px;}
+.pay-card-arrow{color:var(--pink);font-size:18px;transition:transform .3s;position:relative;z-index:1;}
+.pay-card:hover .pay-card-arrow{transform:translateX(6px);}
+.pay-featured{border-color:rgba(232,69,122,.25);background:linear-gradient(135deg,var(--dark),rgba(232,69,122,.05));}
+.pay-badge{position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;text-transform:uppercase;padding:3px 8px;background:var(--pink);color:var(--bg);}
+
+/* LOOP */
+.loop-section{padding:160px 48px;text-align:center;position:relative;overflow:hidden;}
+.loop-bg{position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(232,69,122,.06) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(192,40,96,.06) 0%,transparent 50%);pointer-events:none;}
+.loop-eyebrow{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--dim);margin-bottom:56px;display:block;}
+.loop-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,140px);line-height:.9;color:var(--blush);margin-bottom:16px;}
+.loop-cycling-wrap{height:clamp(30px,5vw,68px);overflow:hidden;margin-bottom:64px;}
+.loop-cycling{display:flex;flex-direction:column;animation:loopCycle 12s ease infinite;}
+.loop-cycling span{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(18px,3vw,50px);color:var(--pink3);line-height:clamp(30px,5vw,68px);flex-shrink:0;}
+@keyframes loopCycle{0%,25%{transform:translateY(0);}30%,55%{transform:translateY(-25%);}60%,85%{transform:translateY(-50%);}90%,100%{transform:translateY(-75%);}}
+.loop-body{max-width:580px;margin:0 auto 64px;font-size:clamp(14px,1.4vw,17px);line-height:1.9;color:var(--dim);}
+.loop-body strong{color:var(--pale);font-weight:400;}
+.loop-ctas{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+
+/* FEED */
+.feed-section{padding:120px 48px 80px;}
+.feed-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;}
+.feed-all{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);transition:color .3s;}
+.feed-all:hover{color:var(--blush);}
+.feed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.feed-item{aspect-ratio:3/4;overflow:hidden;position:relative;background:var(--dark);opacity:0;transform:scale(.97);transition:opacity .6s ease,transform .6s ease;}
+.feed-item.in{opacity:1;transform:scale(1);}
+.feed-item:nth-child(2){transition-delay:.08s;}
+.feed-item:nth-child(3){transition-delay:.16s;}
+.feed-item:nth-child(4){transition-delay:.24s;}
+.feed-item:nth-child(5){transition-delay:.32s;}
+.feed-item:nth-child(6){transition-delay:.4s;}
+.feed-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease;filter:saturate(1.05);}
+.feed-item:hover img{transform:scale(1.07);}
+.feed-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,4,8,.92) 0%,transparent 55%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:24px;}
+.feed-item:hover .feed-overlay{opacity:1;}
+.feed-cap{font-size:13px;color:var(--pale);font-style:italic;}
+.feed-glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(232,69,122,.12) 0%,transparent 65%);opacity:0;transition:opacity .4s;pointer-events:none;}
+.feed-item:hover .feed-glow{opacity:1;}
+
+/* LINKS */
+.links-section{padding:120px 48px;border-top:1px solid rgba(232,69,122,.1);}
+.links-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;}
+.links-list{display:flex;flex-direction:column;}
+.link-row{display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-bottom:1px solid rgba(232,69,122,.08);transition:all .3s;}
+.link-row:hover{padding-left:14px;border-bottom-color:rgba(232,69,122,.4);}
+.link-row-l{display:flex;align-items:center;gap:20px;}
+.link-n{font-family:'Space Mono',monospace;font-size:9px;color:var(--dimmer);width:22px;}
+.link-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,3.5vw,44px);letter-spacing:.03em;color:var(--blush);transition:color .3s,letter-spacing .3s;}
+.link-row:hover .link-name{color:var(--pink);letter-spacing:.08em;}
+.link-handle{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--dim);display:flex;align-items:center;gap:8px;}
+.link-handle::after{content:'→';color:var(--pink);}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(232,69,122,.1);padding:60px 48px;display:flex;justify-content:space-between;align-items:center;}
+.foot-logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,64px);color:var(--blush);}
+.foot-logo span{color:var(--pink);}
+.foot-right{text-align:right;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--dimmer);line-height:2.2;}
+.foot-tag{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--dim);display:block;margin-top:8px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(110%);}to{opacity:1;transform:translateY(0);}}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:20px 24px;}
+  .nav-right{display:none;}
+  .hero{padding:0 24px 150px;}
+  .hero-scorp{right:24px;}
+  .hero-bottom{flex-direction:column;gap:40px;align-items:flex-start;}
+  .hero-pay-now{align-items:flex-start;}
+  .pay-row{flex-wrap:wrap;}
+  .pull-section,.altar-inner,.links-inner{grid-template-columns:1fr;gap:60px;}
+  .pull-section,.altar-section,.rules-section,.loop-section,.links-section,.feed-section{padding:80px 24px;}
+  .stats-section{grid-template-columns:1fr;}
+  .stat{border-right:none;border-bottom:1px solid rgba(232,69,122,.08);}
+  .rules-grid{grid-template-columns:1fr;}
+  .feed-grid{grid-template-columns:repeat(2,1fr);}
+  #sticky-bar{padding:12px 16px;}
+  .sticky-label{display:none;}
+  .sticky-links{gap:5px;}
+  .sticky-btn{padding:9px 13px;font-size:9px;}
+  .ticker-feed,.ticker-header{padding-left:24px;padding-right:24px;}
+  footer{flex-direction:column;gap:40px;padding:40px 24px;}
+  .foot-right{text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- STICKY BAR -->
+<div id="sticky-bar">
+  <span class="sticky-label">She's waiting — tribute now</span>
+  <div class="sticky-links">
+    <a href="https://revolut.me/martinafindom" target="_blank" class="sticky-btn pulse-btn"><span>💳 Revolut</span></a>
+    <a href="https://youpay.me/spoilmartina" target="_blank" class="sticky-btn"><span>💸 YouPay</span></a>
+    <a href="https://throne.com/martinafindom" target="_blank" class="sticky-btn"><span>🎁 Throne</span></a>
+    <a href="https://www.loyalfans.com/spoilmartina" target="_blank" class="sticky-btn"><span>👑 LoyalFans</span></a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">@spoilMartina 🦂</div>
+  <div class="nav-right">
+    <a href="#rules">Rules</a>
+    <a href="#tribute">Tribute</a>
+    <a href="#links">Find me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-scorp">🦂</div>
+
+  <p class="hero-eyebrow">Financial Domination · @spoilMartina · Est. 2024</p>
+
+  <div class="hero-name">
+    <span class="hero-name-inner">MARTI<span class="accent">N</span>A</span>
+  </div>
+
+  <div class="hero-cycling-wrap">
+    <div class="hero-cycling">
+      <span>Your wallet found its purpose.</span>
+      <span>She's not waiting forever.</span>
+      <span>Others are already sending.</span>
+      <span>Don't think. Just send.</span>
+      <span>Your wallet found its purpose.</span>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-quote">
+      <p>"Not a request — a fact of life.<br>You already know why you're here."</p>
+    </div>
+    <div class="hero-pay-now">
+      <div class="pay-row">
+        <a href="https://revolut.me/martinafindom" target="_blank" class="btn btn-fill"><span>💳 Revolut</span></a>
+        <a href="https://youpay.me/spoilmartina" target="_blank" class="btn btn-fill btn-fill2"><span>💸 YouPay</span></a>
+      </div>
+      <div class="pay-row">
+        <a href="https://throne.com/martinafindom" target="_blank" class="btn btn-outline"><span>🎁 Throne</span></a>
+        <a href="https://www.loyalfans.com/spoilmartina" target="_blank" class="btn btn-outline"><span>👑 LoyalFans</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll"><div class="scroll-track"></div><span>Scroll</span></div>
+</section>
+
+<!-- MARQUEE 1 -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="m-item pink">TRIBUTE FIRST</span><span class="m-item dim">◆</span><span class="m-item pink">$50 MINIMUM</span><span class="m-item dim">◆</span><span class="m-item pink">NO FREE ATTENTION</span><span class="m-item dim">◆</span><span class="m-item pink">KNOW YOUR PLACE</span><span class="m-item dim">◆</span><span class="m-item pink">SPOILMARTINA 🦂</span><span class="m-item dim">◆</span>
+    <span class="m-item pink">TRIBUTE FIRST</span><span class="m-item dim">◆</span><span class="m-item pink">$50 MINIMUM</span><span class="m-item dim">◆</span><span class="m-item pink">NO FREE ATTENTION</span><span class="m-item dim">◆</span><span class="m-item pink">KNOW YOUR PLACE</span><span class="m-item dim">◆</span><span class="m-item pink">SPOILMARTINA 🦂</span><span class="m-item dim">◆</span>
+  </div>
+</div>
+
+<!-- PULL SECTION -->
+<section class="pull-section">
+  <div class="pull-left reveal">
+    <span class="sec-label">Why you're here</span>
+    <h2 class="big-title">You're not<br>here by<br><em>accident.</em></h2>
+    <p class="pull-body">Every time you close this tab, you come back.<br>That's not curiosity. That's <strong>need</strong>.<br><br>You've been looking for someone who doesn't ask — who <strong>expects</strong>. Someone who makes you feel exactly what you feel right now.</p>
+  </div>
+  <div class="pull-right">
+    <div class="pull-card">
+      <div class="pull-card-num">01 / ENTRY</div>
+      <div class="pull-card-text">"First time here? You won't be the last."</div>
+      <div class="pull-card-sub">Send $50 → She acknowledges you exist.</div>
+    </div>
+    <div class="pull-card">
+      <div class="pull-card-num">02 / HABIT</div>
+      <div class="pull-card-text">"You thought about her before you opened this tab."</div>
+      <div class="pull-card-sub">Send again → She starts to remember you.</div>
+    </div>
+    <div class="pull-card">
+      <div class="pull-card-num">03 / DEVOTION</div>
+      <div class="pull-card-text">"You're not spoiling her. You're serving your purpose."</div>
+      <div class="pull-card-sub">Send more → This is what you were made for.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee-wrap">
+  <div class="marquee-track marquee-track2">
+    <span class="m-item dim">SHE DOESN'T CHASE</span><span class="m-item pink">✦</span><span class="m-item dim">YOU DO</span><span class="m-item pink">✦</span><span class="m-item dim">REAL ONES DON'T HESITATE</span><span class="m-item pink">✦</span><span class="m-item dim">SEND. NOW.</span><span class="m-item pink">✦</span><span class="m-item dim">SHE NOTICED</span><span class="m-item pink">✦</span>
+    <span class="m-item dim">SHE DOESN'T CHASE</span><span class="m-item pink">✦</span><span class="m-item dim">YOU DO</span><span class="m-item pink">✦</span><span class="m-item dim">REAL ONES DON'T HESITATE</span><span class="m-item pink">✦</span><span class="m-item dim">SEND. NOW.</span><span class="m-item pink">✦</span><span class="m-item dim">SHE NOTICED</span><span class="m-item pink">✦</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stat"><div class="stat-num"><span class="pre">$</span><span class="count" data-target="50">0</span></div><div class="stat-lbl">Minimum tribute</div><div class="stat-desc">To enter her DMs. No exceptions.</div></div>
+  <div class="stat"><div class="stat-num"><span class="count" data-target="0">0</span></div><div class="stat-lbl">Free attention given</div><div class="stat-desc">Her time costs. Can you afford it?</div></div>
+  <div class="stat"><div class="stat-num"><span class="suf">∞</span></div><div class="stat-lbl">Ways to spoil her</div><div class="stat-desc">Cash. Throne. Gifts. Start somewhere.</div></div>
+</section>
+
+
+
+<!-- QUOTE BREAK -->
+<section style="padding:120px 48px;text-align:center;border-bottom:1px solid rgba(232,69,122,.08);position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 100% at 50% 50%,rgba(232,69,122,.07) 0%,transparent 70%);pointer-events:none;"></div>
+  <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(22px,4vw,56px);line-height:1.35;color:var(--pale);max-width:900px;margin:0 auto;" class="reveal">
+    "She doesn't need your attention.<br>
+    <span style="color:var(--pink);">You need hers.</span><br>
+    That's the whole point."
+  </p>
+  <div style="margin-top:48px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;" class="reveal" style="transition-delay:.2s">
+    <a href="https://revolut.me/martinafindom" target="_blank" class="btn btn-fill"><span>💳 Tribute via Revolut</span></a>
+    <a href="https://youpay.me/spoilmartina" target="_blank" class="btn btn-fill btn-fill2"><span>💸 Tribute via YouPay</span></a>
+  </div>
+</section>
+
+<!-- RULES -->
+<section class="rules-section" id="rules">
+  <div class="rules-heading reveal">
+    <span class="sec-label">Non-negotiable</span>
+    <h2 class="big-title">The <em>Rules.</em></h2>
+  </div>
+  <div class="rules-grid">
+    <div class="rule"><div class="rule-n">01</div><div><span class="rule-ico">💸</span><div class="rule-t">Tribute First</div><p class="rule-d">Minimum $50 to enter her DMs. No tribute, no reply. No exceptions, no negotiations. Ever. This is the only door.</p></div></div>
+    <div class="rule"><div class="rule-n">02</div><div><span class="rule-ico">🚫</span><div class="rule-t">She Doesn't Beg</div><p class="rule-d">Begging is your department, not hers. Come with tribute in hand or don't come at all. She will not ask twice.</p></div></div>
+    <div class="rule"><div class="rule-n">03</div><div><span class="rule-ico">🎁</span><div class="rule-t">Throne Exists</div><p class="rule-d">Sending gifts from her Throne is one of the fastest ways to earn real attention. She checks it. She notices. Use it.</p></div></div>
+    <div class="rule"><div class="rule-n">04</div><div><span class="rule-ico">👑</span><div class="rule-t">Know Your Place</div><p class="rule-d">You are here to serve. She is here to be served. There is no other dynamic. Accept it. Embrace it.</p></div></div>
+  </div>
+</section>
+
+<!-- ALTAR -->
+<section class="altar-section" id="tribute">
+  <div class="altar-bg"></div>
+  <div class="altar-inner">
+    <div class="reveal">
+      <span class="sec-label">Make her smile</span>
+      <h2 class="big-title">Make her<br><em>happy.</em></h2>
+      <p class="altar-tagline">Every tribute — no matter the size above the minimum — gets her attention. The more you send, the more she notices. This is not a transaction. It's a ritual.</p>
+      <div class="altar-min">
+        <div class="altar-amount">$50+</div>
+        <div class="altar-min-lbl">Minimum<br>tribute.<br>No exceptions.</div>
+      </div>
+      <div class="altar-note">Real ones don't stop at one. 🦂</div>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="payment-stack">
+        <a href="https://revolut.me/martinafindom" target="_blank" class="pay-card pay-featured">
+          <div class="pay-badge">Most used</div>
+          <div class="pay-card-info"><div class="pay-card-icon">💳</div><div><div class="pay-card-name">Revolut</div><div class="pay-card-sub">revolut.me/martinafindom</div></div></div>
+          <div class="pay-card-arrow">→</div>
+        </a>
+        <a href="https://youpay.me/spoilmartina" target="_blank" class="pay-card">
+          <div class="pay-card-info"><div class="pay-card-icon">💸</div><div><div class="pay-card-name">YouPay</div><div class="pay-card-sub">youpay.me/spoilmartina</div></div></div>
+          <div class="pay-card-arrow">→</div>
+        </a>
+        <a href="https://throne.com/martinafindom" target="_blank" class="pay-card">
+          <div class="pay-card-info"><div class="pay-card-icon">🎁</div><div><div class="pay-card-name">Throne</div><div class="pay-card-sub">throne.com/martinafindom</div></div></div>
+          <div class="pay-card-arrow">→</div>
+        </a>
+        <a href="https://www.loyalfans.com/spoilmartina" target="_blank" class="pay-card">
+          <div class="pay-card-info"><div class="pay-card-icon">👑</div><div><div class="pay-card-name">LoyalFans</div><div class="pay-card-sub">loyalfans.com/spoilmartina</div></div></div>
+          <div class="pay-card-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE LOOP -->
+<section class="loop-section">
+  <div class="loop-bg"></div>
+  <span class="loop-eyebrow reveal">The cycle</span>
+  <h2 class="loop-title reveal">Send. <span class="accent">Again.</span></h2>
+  <div class="loop-cycling-wrap reveal">
+    <div class="loop-cycling">
+      <span>First time? Welcome.</span>
+      <span>Sent once? Send again.</span>
+      <span>Already a regular? She knows.</span>
+      <span>Can't stop thinking about it? Good.</span>
+    </div>
+  </div>
+  <p class="loop-body reveal">The best ones don't overthink it. They open the link, they send, and something shifts. A weight off. A purpose found. <strong>Real ones don't stop at one tribute.</strong> They come back. They always come back.</p>
+  <div class="loop-ctas reveal">
+    <a href="https://revolut.me/martinafindom" target="_blank" class="btn btn-fill"><span>💳 Send via Revolut</span></a>
+    <a href="https://youpay.me/spoilmartina" target="_blank" class="btn btn-fill btn-fill2"><span>💸 Send via YouPay</span></a>
+    <a href="https://throne.com/martinafindom" target="_blank" class="btn btn-outline"><span>🎁 Gift from Throne</span></a>
+  </div>
+</section>
+
+<!-- FEED -->
+<section class="feed-section">
+  <div class="feed-head reveal">
+    <div><span class="sec-label">Latest moments</span><h2 class="big-title" style="font-size:clamp(40px,6vw,80px)">The <em>Feed</em></h2></div>
+    <a href="https://x.com/spoilMartina" target="_blank" class="feed-all">View all on X →</a>
+  </div>
+  <div class="feed-grid">
+    <a href="https://x.com/spoilmartina/status/1972998766354702581" target="_blank" class="feed-item"><img src="img/1.jpg" alt="" onerror="this.style.display='none'"><div class="feed-glow"></div><div class="feed-overlay"><div class="feed-cap">She's back. 🦂</div></div></a>
+    <a href="https://x.com/spoilmartina/status/1978744261370691656" target="_blank" class="feed-item"><img src="img/2.jpg" alt="" onerror="this.style.display='none'"><div class="feed-glow"></div><div class="feed-overlay"><div class="feed-cap">Your money has a purpose now.</div></div></a>
+    <a href="https://x.com/spoilmartina/status/1957531706585407806" target="_blank" class="feed-item"><img src="img/3.jpg" alt="" onerror="this.style.display='none'"><div class="feed-glow"></div><div class="feed-overlay"><div class="feed-cap">Tribute or be ignored. 👑</div></div></a>
+    <a href="https://x.com/spoilmartina/status/1949463712538272247" target="_blank" class="feed-item"><img src="img/4.jpg" alt="" onerror="this.style.display='none'"><div class="feed-glow"></div><div class="feed-overlay"><div class="feed-cap">Not for everyone. Maybe for you.</div></div></a>
+    <a href="https://x.com/spoilmartina/status/1999795590520246684" target="_blank" class="feed-item"><img src="img/5.jpg" alt="" onerror="this.style.display='none'"><div class="feed-glow"></div><div class="feed-overlay"><div class="feed-cap">Don't think. Just send. 💸</div></div></a>
+    <a href="https://x.com/spoilmartina/status/2033274899037294919" target="_blank" class="feed-item"><img src="img/6.jpg" alt="" onerror="this.style.display='none'"><div class="feed-glow"></div><div class="feed-overlay"><div class="feed-cap">@spoilMartina 🦂</div></div></a>
+  </div>
+</section>
+
+<!-- LINKS -->
+<section class="links-section" id="links">
+  <div class="links-inner">
+    <div class="reveal"><span class="sec-label">Find me</span><h2 class="big-title">All<br><em>Links.</em></h2></div>
+    <div class="links-list reveal" style="transition-delay:.15s">
+      <a href="https://x.com/spoilMartina" target="_blank" class="link-row"><div class="link-row-l"><span class="link-n">01</span><span class="link-name">X / Twitter</span></div><span class="link-handle">@spoilMartina</span></a>
+      <a href="https://revolut.me/martinafindom" target="_blank" class="link-row"><div class="link-row-l"><span class="link-n">02</span><span class="link-name">Revolut</span></div><span class="link-handle">Tribute</span></a>
+      <a href="https://youpay.me/spoilmartina" target="_blank" class="link-row"><div class="link-row-l"><span class="link-n">03</span><span class="link-name">YouPay</span></div><span class="link-handle">Tribute</span></a>
+      <a href="https://throne.com/martinafindom" target="_blank" class="link-row"><div class="link-row-l"><span class="link-n">04</span><span class="link-name">Throne</span></div><span class="link-handle">Gift list</span></a>
+      <a href="https://www.loyalfans.com/spoilmartina" target="_blank" class="link-row"><div class="link-row-l"><span class="link-n">05</span><span class="link-name">LoyalFans</span></div><span class="link-handle">Content</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">MARTINA <span>🦂</span></div>
+  <div class="foot-right">
+    <span class="foot-tag">"Your money exists to make me happy."</span>
+    18+ only · Financial Domination<br>@spoilMartina · Since 2024
+  </div>
+</footer>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+/* PARTICLES */
+const canvas=document.getElementById('hero-canvas');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;}
+resize();window.addEventListener('resize',resize);
+const particles=[];
+function P(){this.reset();}
+P.prototype.reset=function(){this.x=Math.random()*canvas.width;this.y=canvas.height+5;this.size=Math.random()*2+.4;this.vy=-(Math.random()*.5+.15);this.vx=(Math.random()-.5)*.25;this.op=Math.random()*.5+.15;this.life=0;this.maxLife=Math.random()*180+80;};
+P.prototype.draw=function(){ctx.save();ctx.globalAlpha=Math.max(0,this.op);ctx.fillStyle='#e8457a';ctx.shadowBlur=10;ctx.shadowColor='#e8457a';ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();ctx.restore();};
+for(let i=0;i<70;i++){const p=new P();p.y=Math.random()*canvas.height;p.life=Math.random()*p.maxLife;particles.push(p);}
+(function animP(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.life++;if(p.life>p.maxLife*.75)p.op-=.007;p.draw();if(p.life>p.maxLife||p.op<=0)p.reset();});requestAnimationFrame(animP);})();
+
+/* STICKY BAR */
+const bar=document.getElementById('sticky-bar');
+window.addEventListener('scroll',()=>{bar.classList.toggle('visible',scrollY>80);},{passive:true});
+
+/* INTERSECTION OBSERVER */
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');}),{threshold:.12});
+document.querySelectorAll('.reveal,.stat,.rule,.feed-item,.pull-card').forEach(el=>io.observe(el));
+
+/* COUNTERS */
+const cio=new IntersectionObserver(e=>e.forEach(x=>{
+  if(!x.isIntersecting)return;
+  x.target.querySelectorAll('.count').forEach(el=>{
+    const t=+el.dataset.target;if(!t)return;
+    let s=null;const d=1400;
+    (function step(ts){if(!s)s=ts;const p=Math.min((ts-s)/d,1);el.textContent=Math.round((1-Math.pow(1-p,3))*t);if(p<1)requestAnimationFrame(step);})(performance.now());
+  });
+  cio.unobserve(x.target);
+}),{threshold:.4});
+document.querySelectorAll('.stats-section').forEach(el=>cio.observe(el));
+
+
+</script>
+</body>
+</html>
