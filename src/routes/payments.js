@@ -69,25 +69,36 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   res.json({ received: true });
 });
 
+const { sendPackConfirmation } = require('../email');
+
 async function handleSuccessfulPayment(stripeSession) {
   try {
     const userId = stripeSession.metadata.user_id !== 'guest'
       ? parseInt(stripeSession.metadata.user_id)
       : null;
-    const appSession = stripeSession.metadata.app_session;
 
     // Generate pack
     const packCards = generatePack();
     const token = crypto.randomBytes(32).toString('hex');
 
+    // Get pack number for this user
+    let packNumber = 1;
+    if (userId) {
+      const countRes = await pool.query(
+        'UPDATE users SET packs_opened = packs_opened + 1 WHERE id = $1 RETURNING packs_opened',
+        [userId]
+      );
+      packNumber = countRes.rows[0]?.packs_opened || 1;
+    }
+
     // Update purchase
     await pool.query(
-      `UPDATE purchases SET status='completed', pack_data=$1, stripe_payment_intent_id=$2
-       WHERE stripe_session_id=$3`,
-      [JSON.stringify(packCards), stripeSession.payment_intent, stripeSession.id]
+      `UPDATE purchases SET status='completed', pack_data=$1, stripe_payment_intent_id=$2, pack_number=$3
+       WHERE stripe_session_id=$4`,
+      [JSON.stringify(packCards), stripeSession.payment_intent, packNumber, stripeSession.id]
     );
 
-    // If logged in, save cards to album
+    // Save cards to user album
     if (userId) {
       for (const card of packCards) {
         await pool.query(
@@ -96,6 +107,13 @@ async function handleSuccessfulPayment(stripeSession) {
            ON CONFLICT (user_id, card_id) DO NOTHING`,
           [userId, card.id, card.rarity, card.name]
         );
+      }
+
+      // Send confirmation email
+      const userRes = await pool.query('SELECT email FROM users WHERE id = $1', [userId]);
+      const email = userRes.rows[0]?.email;
+      if (email) {
+        await sendPackConfirmation(email, packCards, packNumber);
       }
     }
 
@@ -106,7 +124,7 @@ async function handleSuccessfulPayment(stripeSession) {
       [token, JSON.stringify(packCards), stripeSession.id]
     );
 
-    console.log(`Pack generated for session ${stripeSession.id}`);
+    console.log(`Pack #${packNumber} generated for session ${stripeSession.id}`);
   } catch (err) {
     console.error('handleSuccessfulPayment error:', err);
   }
